@@ -3,10 +3,17 @@ import List_result from "./components/List_result";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import {Provider} from "react-redux";
+import store from "./store";
+import { PersistGate } from 'redux-persist/integration/react'
+import {persistStore} from 'redux-persist';
 
+let persistor = persistStore(store);
 export default function App() {
-  return (
-      <NavigationContainer>
+    return (
+      <Provider store={store}>
+          <PersistGate persistor={persistor}>
+          <NavigationContainer>
           <Tabs.Navigator
               initialRouteName="Home"
               screenOptions={({ route }) => ({
@@ -21,8 +28,7 @@ export default function App() {
                   },
                   tabBarActiveTintColor: "#11570f",
                   tabBarInactiveTintColor: "grey",
-              })}
-          >
+              })}>
               <Tabs.Screen
                   name="Recherche"
                   initialParams={{ addElement: null }}
@@ -35,6 +41,8 @@ export default function App() {
               />
           </Tabs.Navigator>
       </NavigationContainer>
+          </PersistGate>
+      </Provider>
   );
 }
 const Tabs = createBottomTabNavigator();

@@ -2,7 +2,8 @@ import { FlatList, Image, Linking, SafeAreaView, ScrollView, StatusBar, StyleShe
 import {ListFavoriteMusic} from "./Search";
 import React from "react";
 import Popup from "reactjs-popup";
-
+import {searchSliceSelector} from "./searchSlice";
+import { useSelector } from "react-redux";
 
 function note(item) {
     let note = document.getElementById("note").value;
@@ -53,9 +54,14 @@ const Item_song = ({ title }) => (
 );
 
 const Results = () => {
+
+    const liste_song = useSelector(searchSliceSelector);
+    console.log(liste_song);
+
     const song_infos = ({ item }) => (
         <Item_song title={item} />
     );
+
     return (
         <View style={{ flex: 1 }}>
             <SafeAreaView style={styles.container}>
@@ -64,7 +70,7 @@ const Results = () => {
                         <Text style={{fontSize:"20px", fontWeight:"bold"}}>Mes musiques préféréés</Text>
                         <div style={{marginTop:"20px"}}>
                             <FlatList
-                                data={ListFavoriteMusic}
+                                data={liste_song}
                                 renderItem={song_infos}
                                 keyExtractor={(item) => item.id}
                             />

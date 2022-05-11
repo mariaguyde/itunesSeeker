@@ -3,6 +3,8 @@ import {Image, StyleSheet, Text, TextInput,} from "react-native";
 import { TouchableOpacity, View, FlatList} from "react-native";
 import { useEffect, useState } from "react/cjs/react.development";
 import Popup from 'reactjs-popup';
+import {addSongToList} from './searchSlice';
+import {useDispatch} from "react-redux";
 
 export const ListFavoriteMusic =[];
 const itunes_request = async (keyword) => {
@@ -14,12 +16,15 @@ const itunes_request = async (keyword) => {
     }
 };
 
+
 const Search = ({ }) => {
     const [input, setInput] = useState("");
     const [listResults, setListResults] = useState([]);
+    const dispatch = useDispatch();
+
 
     function addToFavoriteMusic(song) {
-        ListFavoriteMusic.push(song);
+        dispatch(addSongToList(song));
         //console.log(ListFavoriteMusic);
     }
     const get_results = () => {
